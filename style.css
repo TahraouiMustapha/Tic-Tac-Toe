@@ -1,0 +1,31 @@
+* {
+    margin : 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+body {
+    background-color: #1f2937;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.board {
+    width: min(60vw, 520px);
+    height: 480px;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap:4px;
+}
+
+.item {
+    background-color: #fff;
+    color: #1f2937;
+    font-size: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
