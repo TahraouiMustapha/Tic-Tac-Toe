@@ -1,8 +1,8 @@
 const Gameboard = (function() {
     let gameboard = [
-        'X','O','X',
-        'O','X','O',
-        'X','X','O'       
+        '','','',
+        '','','',
+        '','',''       
     ];
    
     const getBoard = () => {
@@ -49,43 +49,37 @@ const player1 = createPlayer('yassin', 'X');
 const player2 = createPlayer('moh', 'O');
 
 const gameController = (function () {
-    let turn = 'X';
+    let playerTurn = player1;
     const startGame = () => {
         displayController.renderContent();
         while(!Gameboard.checkOver()) {
-            displayController.gameState(turn);
-            // let choice = prompt('enter your choice:');
-            if (turn === 'X') {        
-                Gameboard.addSymbol(turn, choice);
+            // displayController.gameState(playerTurn.symbol);
+            let choice = prompt('enter your choice:');
+            if (playerTurn === player1) {        
+                Gameboard.addSymbol(playerTurn.symbol, choice);
                 console.log(Gameboard.getBoard());
-                if (Gameboard.checkWinner(turn)) {
-                    finishGame(turn);
+                if (Gameboard.checkWinner(playerTurn.symbol)) {
+                    finishGame(playerTurn);
                     break;
                 }
-                turn = 'O';
+                playerTurn = player2;
             } else {
-                Gameboard.addSymbol(turn, choice);
+                Gameboard.addSymbol(playerTurn.symbol, choice);
                 console.log(Gameboard.getBoard());
-                if (Gameboard.checkWinner(turn)) {
-                    finishGame(turn);
+                if (Gameboard.checkWinner(playerTurn.symbol)) {
+                    finishGame(playerTurn);
                     break;
                 }
-                turn = 'X';
+                playerTurn = player1;
             }
         }
         //when game is over
-        displayController.gameState('over');
+        // displayController.gameState('over');
     };
 
-    const finishGame = (symbolWon) => {
+    const finishGame = (player) => {
         console.log('good job');
-        let name;
-        if (symbolWon === player1.symbol) {
-            name = player1.name;
-        } else {
-            name = player2.name;
-        }
-        console.log(name + ' you are win with ' + symbolWon);
+        console.log(player.name + ' you are win with ' + player.symbol);
     };
 
     return { startGame, finishGame };
@@ -95,10 +89,11 @@ const displayController = (function () {
     const board = document.querySelector('.board');
 
     const renderContent = () => {
+        const gameboard = Gameboard.getBoard();
         for(let i = 0; i < 9; i++) {
             let repos = document.createElement('div');
             repos.classList.add('item');
-            repos.textContent = Gameboard.getBoard()[i];
+            repos.textContent = gameboard[i];
             board.appendChild(repos);
         }
     };
@@ -114,6 +109,8 @@ const displayController = (function () {
         }
         body.insertBefore(myDiv, board);
     };
+
+
     
     return { renderContent, gameState }; 
 })();
