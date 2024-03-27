@@ -2,7 +2,7 @@ const Gameboard = (function() {
     let gameboard = [
         'X','O','X',
         'O','X','O',
-        'X','',''       
+        'X','X','O'       
     ];
    
     const getBoard = () => {
@@ -53,7 +53,7 @@ const gameController = (function () {
     const startGame = () => {
         displayController.renderContent();
         while(!Gameboard.checkOver()) {
-            console.log('player \''+ turn + '\' turn:');
+            displayController.gameState(turn);
             // let choice = prompt('enter your choice:');
             if (turn === 'X') {        
                 Gameboard.addSymbol(turn, choice);
@@ -74,7 +74,7 @@ const gameController = (function () {
             }
         }
         //when game is over
-        console.log('game over draw!');
+        displayController.gameState('over');
     };
 
     const finishGame = (symbolWon) => {
@@ -102,8 +102,20 @@ const displayController = (function () {
             board.appendChild(repos);
         }
     };
+
+    let body = document.body;
+    const gameState= (turn) => {
+        let myDiv = document.createElement('div');
+        myDiv.classList.add('playerTurn');
+        if (turn === 'over') {
+            myDiv.textContent = 'game is over';
+        } else {
+            myDiv.textContent = '\' '+ turn + ' \' turn:';
+        }
+        body.insertBefore(myDiv, board);
+    };
     
-    return { renderContent }; 
+    return { renderContent, gameState }; 
 })();
 
 
