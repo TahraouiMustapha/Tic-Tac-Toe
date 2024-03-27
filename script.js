@@ -1,8 +1,8 @@
 const Gameboard = (function() {
     let gameboard = [
-        '','','',
-        '','','',
-        '','',''       
+        'X','O','X',
+        'O','X','O',
+        'X','',''       
     ];
    
     const getBoard = () => {
@@ -52,7 +52,6 @@ const gameController = (function () {
     let turn = 'X';
     const startGame = () => {
         displayController.renderContent();
-        console.log(Gameboard.getBoard());
         while(!Gameboard.checkOver()) {
             console.log('player \''+ turn + '\' turn:');
             // let choice = prompt('enter your choice:');
@@ -99,10 +98,9 @@ const displayController = (function () {
         for(let i = 0; i < 9; i++) {
             let repos = document.createElement('div');
             repos.classList.add('item');
-            repos.textContent = 'X';//for testing
+            repos.textContent = Gameboard.getBoard()[i];
             board.appendChild(repos);
         }
-        return board;
     };
     
     return { renderContent }; 
