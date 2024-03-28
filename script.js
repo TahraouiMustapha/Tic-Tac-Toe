@@ -12,6 +12,9 @@ const Gameboard = (function() {
     const addSymbol = (symbol, index) => {
         if (gameboard[index] === '') {
             gameboard[index] = symbol;
+            return true;
+        } else {
+            return false;
         }
     };
 
@@ -50,31 +53,27 @@ const player2 = createPlayer('moh', 'O');
 
 const gameController = (function () {
     let playerTurn = player1;
+    let fullSpots = 0;
     const startGame = () => {
         displayController.renderContent();
-        while(!Gameboard.checkOver()) {
+        while (fullSpots < 9) {
             // displayController.gameState(playerTurn.symbol);
-            let choice = prompt('enter your choice:');
-            if (playerTurn === player1) {        
-                Gameboard.addSymbol(playerTurn.symbol, choice);
-                console.log(Gameboard.getBoard());
-                if (Gameboard.checkWinner(playerTurn.symbol)) {
-                    finishGame(playerTurn);
-                    break;
-                }
-                playerTurn = player2;
-            } else {
-                Gameboard.addSymbol(playerTurn.symbol, choice);
-                console.log(Gameboard.getBoard());
-                if (Gameboard.checkWinner(playerTurn.symbol)) {
-                    finishGame(playerTurn);
-                    break;
-                }
-                playerTurn = player1;
+            // let choice = prompt('enter your choice:');
+            let addHisChoice = Gameboard.addSymbol(playerTurn.symbol, choice);
+            if (Gameboard.checkWinner(playerTurn.symbol)) {
+                finishGame(playerTurn);
+                break;
+            }
+            if (addHisChoice) {
+                fullSpots++;
+                playerTurn = playerTurn === player1 ? player2 : player1;
             }
         }
         //when game is over
-        // displayController.gameState('over');
+        if (Gameboard.checkOver() && !Gameboard.checkWinner(playerTurn.symbol)){
+            // displayController.gameState('over');
+            console.log("game is over");
+        }
     };
 
     const finishGame = (player) => {
