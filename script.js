@@ -4,10 +4,6 @@ const Gameboard = (function() {
         '','','',
         '','',''       
     ];
-   
-    const getBoard = () => {
-        return gameboard;
-    };
 
     const addSymbol = (symbol, index) => {
         if (gameboard[index] === '') {
@@ -41,7 +37,7 @@ const Gameboard = (function() {
         return false;
     };
 
-    return { getBoard, addSymbol, checkOver, checkWinner };
+    return { gameboard, addSymbol, checkOver, checkWinner };
 })();
 
 function createPlayer (name, symbol) {
@@ -52,25 +48,30 @@ const player1 = createPlayer('yassin', 'X');
 const player2 = createPlayer('moh', 'O');
 
 const gameController = (function () {
-    let playerTurn = player1;
-    let fullSpots = 0;
+    let currentPlayer = player1;
+
     const startGame = () => {
         displayController.renderContent();
+        let fullSpots = 0;
+        let isThereWinner = false;
+
         while (fullSpots < 9) {
-            // displayController.gameState(playerTurn.symbol);
-            // let choice = prompt('enter your choice:');
-            let addHisChoice = Gameboard.addSymbol(playerTurn.symbol, choice);
-            if (Gameboard.checkWinner(playerTurn.symbol)) {
-                finishGame(playerTurn);
+            // displayController.gameState(currentPlayer.symbol);
+            let choice = prompt('enter your choice:');
+            let addHisChoice = Gameboard.addSymbol(currentPlayer.symbol, choice);
+            console.log(Gameboard.gameboard);
+            if (Gameboard.checkWinner(currentPlayer.symbol)) {
+                finishGame(currentPlayer);
+                isThereWinner = true;
                 break;
             }
             if (addHisChoice) {
                 fullSpots++;
-                playerTurn = playerTurn === player1 ? player2 : player1;
+                currentPlayer = currentPlayer === player1 ? player2 : player1;
             }
         }
         //when game is over
-        if (Gameboard.checkOver() && !Gameboard.checkWinner(playerTurn.symbol)){
+        if (Gameboard.checkOver() && !isThereWinner){
             // displayController.gameState('over');
             console.log("game is over");
         }
@@ -88,7 +89,7 @@ const displayController = (function () {
     const board = document.querySelector('.board');
 
     const renderContent = () => {
-        const gameboard = Gameboard.getBoard();
+        const gameboard = Gameboard.gameboard;
         for(let i = 0; i < 9; i++) {
             let repos = document.createElement('div');
             repos.classList.add('item');
@@ -100,7 +101,7 @@ const displayController = (function () {
     let body = document.body;
     const gameState= (turn) => {
         let myDiv = document.createElement('div');
-        myDiv.classList.add('playerTurn');
+        myDiv.classList.add('currentPlayer');
         if (turn === 'over') {
             myDiv.textContent = 'game is over';
         } else {
