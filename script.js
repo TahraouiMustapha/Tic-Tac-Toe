@@ -60,6 +60,7 @@ const gameController = (function () {
             let choice = prompt('enter your choice:');
             let addHisChoice = Gameboard.addSymbol(currentPlayer.symbol, choice);
             console.log(Gameboard.gameboard);
+            displayController.updateContent();
             if (Gameboard.checkWinner(currentPlayer.symbol)) {
                 finishGame(currentPlayer);
                 isThereWinner = true;
@@ -98,6 +99,14 @@ const displayController = (function () {
         }
     };
 
+    const updateContent = () => {
+        const gameboard = Gameboard.gameboard;
+        const items = Array.from(document.querySelectorAll('.item'));
+        for (let i = 0; i < 9; i++) {
+            items[i].innerHTML = gameboard[i];
+        }
+    };
+
     let body = document.body;
     const gameState= (turn) => {
         let myDiv = document.createElement('div');
@@ -112,7 +121,7 @@ const displayController = (function () {
 
 
     
-    return { renderContent, gameState }; 
+    return { renderContent, gameState, updateContent }; 
 })();
 
 
