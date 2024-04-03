@@ -52,38 +52,32 @@ const gameController = (function () {
 
     const startGame = () => {
         displayController.renderContent();
-        let fullSpots = 0;
-        let isThereWinner = false;
-
-        while (fullSpots < 9) {
-            // displayController.gameState(currentPlayer.symbol);
-            let choice = prompt('enter your choice:');
-            let addHisChoice = Gameboard.addSymbol(currentPlayer.symbol, choice);
-            console.log(Gameboard.gameboard);
-            displayController.updateContent();
-            if (Gameboard.checkWinner(currentPlayer.symbol)) {
-                finishGame(currentPlayer);
-                isThereWinner = true;
-                break;
-            }
-            if (addHisChoice) {
-                fullSpots++;
-                currentPlayer = currentPlayer === player1 ? player2 : player1;
-            }
-        }
-        //when game is over
-        if (Gameboard.checkOver() && !isThereWinner){
-            // displayController.gameState('over');
-            console.log("game is over");
-        }
     };
 
     const finishGame = (player) => {
         console.log('good job');
         console.log(player.name + ' you are win with ' + player.symbol);
     };
+    
+    const getIndexOfSpot = (index) => {
+        if (!Gameboard.checkOver()) {
+            let choice = index;
+            let addHisChoice = Gameboard.addSymbol(currentPlayer.symbol, choice);
+            displayController.updateContent();
+            if (Gameboard.checkWinner(currentPlayer.symbol)) {
+                finishGame(currentPlayer);
+            }
+            if (addHisChoice) {
+                currentPlayer = currentPlayer === player1 ? player2 : player1;
+            }
 
-    return { startGame, finishGame };
+            if (Gameboard.checkOver()) {
+                console.log('game is over');
+            }
+        } 
+    };
+
+    return { startGame, finishGame, getIndexOfSpot };
 })();
 
 const displayController = (function () {
@@ -94,6 +88,10 @@ const displayController = (function () {
         for(let i = 0; i < 9; i++) {
             let repos = document.createElement('div');
             repos.classList.add('item');
+            repos.setAttribute('data-index', i);
+            repos.addEventListener('click', (e) => {
+                gameController.getIndexOfSpot(e.target.dataset.index);
+            });
             repos.textContent = gameboard[i];
             board.appendChild(repos);
         }
@@ -118,6 +116,7 @@ const displayController = (function () {
         }
         body.insertBefore(myDiv, board);
     };
+
 
 
     
