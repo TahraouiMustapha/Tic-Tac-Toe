@@ -52,14 +52,15 @@ function createPlayer (name, symbol) {
     return {name, symbol};
 }
 
-const player1 = createPlayer('yassin', 'X');
-const player2 = createPlayer('moh', 'O');
+let player1 ;
+let player2 ;
 
 const gameController = (function () {
-    let currentPlayer = player1;
+    let currentPlayer ;
 
     const startGame = () => {
         displayController.renderContent();
+        currentPlayer = player1;
     };
 
     const finishGame = (player) => {
@@ -94,6 +95,7 @@ const displayController = (function () {
     const board = document.querySelector('.board');
 
     const renderContent = () => {
+        board.style.display = 'grid';
         const gameboard = Gameboard.gameboard;
         for(let i = 0; i < 9; i++) {
             let repos = document.createElement('div');
@@ -128,8 +130,19 @@ const displayController = (function () {
     };
 
     const getPlayerNames = () => {
-        const getNames = document.querySelector('.get-names');
-        
+        let myForm = document.querySelector('.myForm');
+        const start = document.querySelector('#startBtn');
+        const namePlayer1 = document.querySelector('.player1Name');
+        const namePlayer2 = document.querySelector('.player2Name');
+        start.addEventListener('click', () => {
+            if (namePlayer1.value != '' && namePlayer2.value != '') {
+                player1 = createPlayer(namePlayer1.value, 'X');
+                player2 = createPlayer(namePlayer2.value, 'O');
+                myForm.style.display = 'none';
+                gameController.startGame();
+            }
+
+        });
     };
 
     

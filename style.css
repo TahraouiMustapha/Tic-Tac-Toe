@@ -89,11 +89,13 @@ form {
 
 .mark {
     font-size: 3em;
+    font-weight: 500;
+    color:#fff;
     margin-bottom: -24px;
 }
 
 #startBtn {
-    background-color: red;
+    background-color: #1f2937;
     padding:16px 24px;
     width: 40%;
     align-self: center;
