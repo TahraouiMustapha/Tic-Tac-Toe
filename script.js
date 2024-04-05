@@ -6,8 +6,8 @@ const Gameboard = (function() {
     ];
 
     const addSymbol = (symbol, index) => {
-        if (gameboard[index] === '') {
-            gameboard[index] = symbol;
+        if (Gameboard.gameboard[index] === '') {
+            Gameboard.gameboard[index] = symbol;
             return true;
         } else {
             return false;
@@ -26,9 +26,9 @@ const Gameboard = (function() {
         ];
 
         for (let line of winnerLine) {
-            if ( gameboard[line[0]] == symbol &&
-                 gameboard[line[1]] == symbol &&
-                 gameboard[line[2]] == symbol
+            if ( Gameboard.gameboard[line[0]] == symbol &&
+                 Gameboard.gameboard[line[1]] == symbol &&
+                 Gameboard.gameboard[line[2]] == symbol
                  ) {
                     return true;
                  }
@@ -37,7 +37,15 @@ const Gameboard = (function() {
         return false;
     };
 
-    return { gameboard, addSymbol, checkOver, checkWinner };
+    const resetTheBoard = () => {
+        Gameboard.gameboard = [
+            '','','',
+            '','','',
+            '','',''       
+        ];
+    };
+
+    return { gameboard, addSymbol, checkOver, checkWinner, resetTheBoard };
 })();
 
 function createPlayer (name, symbol) {
@@ -57,6 +65,8 @@ const gameController = (function () {
     const finishGame = (player) => {
         console.log('good job');
         console.log(player.name + ' you are win with ' + player.symbol);
+        Gameboard.resetTheBoard();
+        console.log(Gameboard.gameboard);
     };
     
     const getIndexOfSpot = (index) => {
