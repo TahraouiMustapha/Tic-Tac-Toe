@@ -127,11 +127,15 @@ const displayController = (function () {
         body.insertBefore(myDiv, board);
     };
 
-
+    const getPlayerNames = () => {
+        const getNames = document.querySelector('.get-names');
+        
+    };
 
     
-    return { renderContent, gameState, updateContent }; 
+    return { renderContent, gameState, updateContent, getPlayerNames }; 
 })();
 
 
-gameController.startGame();
+//gameController.startGame(); uncomment to clean up the interface
+displayController.getPlayerNames();
