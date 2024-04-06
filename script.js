@@ -92,6 +92,7 @@ const gameController = (function () {
 })();
 
 const displayController = (function () {
+    let body = document.body;
     const board = document.querySelector('.board');
 
     const renderContent = () => {
@@ -101,12 +102,17 @@ const displayController = (function () {
             let repos = document.createElement('div');
             repos.classList.add('item');
             repos.setAttribute('data-index', i);
-            repos.addEventListener('click', (e) => {
+            repos.onclick =  (e) => {
                 gameController.getIndexOfSpot(e.target.dataset.index);
-            });
+            };
             repos.textContent = gameboard[i];
             board.appendChild(repos);
         }
+
+        let restart = document.createElement('button');
+        restart.textContent = 'restart';
+        restart.setAttribute('id','restartBtn');
+        body.appendChild(restart);
     };
 
     const updateContent = () => {
@@ -117,7 +123,6 @@ const displayController = (function () {
         }
     };
 
-    let body = document.body;
     const gameState= (turn) => {
         let myDiv = document.createElement('div');
         myDiv.classList.add('currentPlayer');
@@ -134,7 +139,7 @@ const displayController = (function () {
         const start = document.querySelector('#startBtn');
         const namePlayer1 = document.querySelector('.player1Name');
         const namePlayer2 = document.querySelector('.player2Name');
-        start.addEventListener('click', () => {
+        start.onclick =  () => {
             if (namePlayer1.value != '' && namePlayer2.value != '') {
                 player1 = createPlayer(namePlayer1.value, 'X');
                 player2 = createPlayer(namePlayer2.value, 'O');
@@ -142,7 +147,7 @@ const displayController = (function () {
                 gameController.startGame();
             }
 
-        });
+        };
     };
 
     

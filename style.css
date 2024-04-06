@@ -94,13 +94,19 @@ form {
     margin-bottom: -24px;
 }
 
-#startBtn {
+#startBtn , #restartBtn {
     background-color: #1f2937;
     padding:16px 24px;
-    width: 40%;
+    width: 120px;
     align-self: center;
     color:#fff;
     border:none;
     border-radius: 16px;
     font-size: 1.4em;
+}
+
+#restartBtn {
+    background-color: #fff;
+    color:#1f2937;
+    margin-top:32px;
 }
