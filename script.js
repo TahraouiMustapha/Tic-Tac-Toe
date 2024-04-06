@@ -57,9 +57,15 @@ let player2 ;
 
 const gameController = (function () {
     let currentPlayer ;
+    let firstGame = true;
 
     const startGame = () => {
-        displayController.renderContent();
+        if (firstGame) {
+            displayController.renderContent();
+            firstGame = false;
+        } else {
+            displayController.changeDisplay();
+        }
         currentPlayer = player1;
     };
 
@@ -94,25 +100,36 @@ const gameController = (function () {
 const displayController = (function () {
     let body = document.body;
     const board = document.querySelector('.board');
+    const myForm = document.querySelector('.myForm');
+    const restart = document.createElement('button');
+
+
 
     const renderContent = () => {
         board.style.display = 'grid';
+
         const gameboard = Gameboard.gameboard;
         for(let i = 0; i < 9; i++) {
             let repos = document.createElement('div');
             repos.classList.add('item');
             repos.setAttribute('data-index', i);
-            repos.onclick =  (e) => {
+            repos.addEventListener('click', (e) => {
                 gameController.getIndexOfSpot(e.target.dataset.index);
-            };
+            });
             repos.textContent = gameboard[i];
             board.appendChild(repos);
         }
 
-        let restart = document.createElement('button');
         restart.textContent = 'restart';
         restart.setAttribute('id','restartBtn');
         body.appendChild(restart);
+        restart.addEventListener('click', () => {
+            restart.style.display = 'none';
+            Gameboard.resetTheBoard();
+            displayController.updateContent();
+            board.style.display = 'none';
+            myForm.style.display = 'block';
+        }) ;
     };
 
     const updateContent = () => {
@@ -134,9 +151,8 @@ const displayController = (function () {
         body.insertBefore(myDiv, board);
     };
 
+    const start = document.querySelector('#startBtn');
     const getPlayerNames = () => {
-        let myForm = document.querySelector('.myForm');
-        const start = document.querySelector('#startBtn');
         const namePlayer1 = document.querySelector('.player1Name');
         const namePlayer2 = document.querySelector('.player2Name');
         start.onclick =  () => {
@@ -150,8 +166,14 @@ const displayController = (function () {
         };
     };
 
+    const changeDisplay = () => {
+        myForm.style.display = 'none';
+        board.style.display = 'grid';
+        restart.style.display = 'block';
+    };
+
     
-    return { renderContent, gameState, updateContent, getPlayerNames }; 
+    return { renderContent, gameState, updateContent, getPlayerNames, changeDisplay }; 
 })();
 
 

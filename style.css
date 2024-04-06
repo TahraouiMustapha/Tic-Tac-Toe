@@ -16,7 +16,6 @@ body {
 .board {
     width: min(60vw, 520px);
     height: 480px;
-    display: grid;
     grid-template-rows: repeat(3, 1fr);
     grid-template-columns: repeat(3, 1fr);
     gap:4px;
