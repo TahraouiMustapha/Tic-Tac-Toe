@@ -69,14 +69,14 @@ const gameController = (function () {
         currentPlayer = player1;
     };
 
+    const result = document.querySelector('.result');
     const finishGame = (player) => {
-        console.log('good job');
-        console.log(player.name + ' you are win with ' + player.symbol);
+        result.textContent = player.name + ' you are win with ' + player.symbol ;
         Gameboard.resetTheBoard();
-        console.log(Gameboard.gameboard);
     };
     
     const getIndexOfSpot = (index) => {
+        result.textContent = '';
         if (!Gameboard.checkOver()) {
             let choice = index;
             let addHisChoice = Gameboard.addSymbol(currentPlayer.symbol, choice);
@@ -89,7 +89,7 @@ const gameController = (function () {
             }
 
             if (Gameboard.checkOver()) {
-                console.log('game is over');
+                resutl.textContent = 'game is over';
             }
         } 
     };
@@ -102,7 +102,7 @@ const displayController = (function () {
     const board = document.querySelector('.board');
     const myForm = document.querySelector('.myForm');
     const restart = document.createElement('button');
-
+    const result = document.querySelector('.result');
 
 
     const renderContent = () => {
@@ -129,7 +129,9 @@ const displayController = (function () {
             displayController.updateContent();
             board.style.display = 'none';
             myForm.style.display = 'block';
+            result.textContent = '';
         }) ;
+
     };
 
     const updateContent = () => {
@@ -177,5 +179,5 @@ const displayController = (function () {
 })();
 
 
-//gameController.startGame(); uncomment to clean up the interface
+
 displayController.getPlayerNames();

@@ -108,4 +108,12 @@ form {
     background-color: #fff;
     color:#1f2937;
     margin-top:32px;
+    margin-bottom:32px;
+}
+
+.result {
+    position: fixed;
+    bottom:32px;
+    color:#fff;
+    font-size: 1.5em;
 }
